@@ -1,0 +1,7 @@
+"""
+Test cases for the users app.
+"""
+
+from django.test import TestCase  # pylint: disable=unused-import
+
+# Create your tests here.

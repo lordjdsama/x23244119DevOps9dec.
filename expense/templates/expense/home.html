@@ -1,0 +1,28 @@
+{% extends 'expense/base.html'%}
+
+
+
+ 
+    {% block content %}
+    <h1>Expense Details</h1>
+    {% for expense in expense %}
+        
+        <div class="card mt-4" style="width: 18rem; margin-inline: 35%;">
+  <div class="card-body ">
+ <h5 href="#" class="card-link">
+     
+    <p class="card-text">Spent on: {{ expense.on }}</p>
+    </h5>
+    <h6 class="card-subtitle mb-3 text-body-secondary">Expense by: {{ expense.author }}</h6>
+    <h6 class="card-subtitle text-body-secondary">Total Spent: {{ expense.expense }}</h6>
+
+      
+    
+    
+     <a  href="{% url 'expense-detail' expense.pk %}">View Details</a>
+    
+  </div>
+</div>
+        
+    {% endfor %}
+    {% endblock content %}

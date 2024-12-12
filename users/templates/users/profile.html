@@ -1,0 +1,9 @@
+{% extends 'expense/base.html' %}
+
+    {% block content %}
+    <div class="container">
+        <h1>{{ user.username }} would you like to 
+        <a class="btn btn-outline-dark btn-lg" href="{% url 'expense-create'%}">Add Expense?</a>
+        </h1>
+    </div>
+    {% endblock content %}

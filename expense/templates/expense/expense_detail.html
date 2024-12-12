@@ -1,0 +1,30 @@
+{% extends 'expense/base.html'%}
+
+
+
+ 
+    {% block content %}
+    <h1>Expense # {{object.id}}</h1>
+        
+        <div class="card" style="width: 18rem; margin-inline: 35%;">
+  <div class="card-body">
+    <h5 href="#" class="card-link">
+    <p class="card-text">Spent on: {{ expense.on }}</p>
+       
+    </h5>
+    <h6 class="card-subtitle mb-3 text-body-secondary">Expense by: {{ expense.author }}</h6>
+    <h6 class="card-subtitle text-body-secondary">Total Spent: {{ expense.expense }}</h6>
+    <p class="card-title">Date of Expense: {{ expense.date }}</p>
+       Updated on: {{ object.updated_at | date:"F d, Y" }}
+    
+  </div>
+  {% if object.author == user or user.is_staff %}
+<div class="mx-5 my-3" >
+    <a class="btn btn-outline-info mx-2" href="{% url 'expense-update' object.id%}">Update</a>
+    <a class="btn btn-outline-danger" href="{% url 'expense-delete' object.id%}">delete</a>
+</div>
+{% endif %}
+</div>
+
+        
+    {% endblock content %}

@@ -1,0 +1,75 @@
+version: 0.2
+ 
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - pip install --upgrade pip
+      - pip install -r requirements.txt
+      - pip install pylint
+ 
+  pre_build:
+    commands:
+      - echo "Building the project..."
+      - python --version
+      - pylint $CODEBUILD_SRC_DIR/*.py || true
+      - pylint $CODEBUILD_SRC_DIR/expense/*.py || true
+      - pylint --disable=R0903,E1101 $CODEBUILD_SRC_DIR/expense/*.py || true
+ 
+artifacts:
+  files:
+    - '**/*'
+
+# version: 0.2
+ 
+# phases:
+#   install:
+#     runtime-versions:
+#       python: 3.9
+#     commands:
+#       - pip install --upgrade pip
+#       # Install dependencies needed for running the static analysis
+#       - pip install -r requirements.txt pylint
+#   pre_build:
+#     commands:
+#       - python --version
+#       - pylint $CODEBUILD_SRC_DIR/*.py
+#       - pylint --disable=E1101,C0103,C0303,C0301,R0903,E0307 $CODEBUILD_SRC_DIR/lessons/*.py
+#       - pylint --disable=C0303,E1101,R0903,E0307,C0301,W0613,R1705,E0602,W0622,R0914,R1710,W0718,E1131 $CODEBUILD_SRC_DIR/expense/*.py
+
+# artifacts:
+#   files:
+#   - '**/*'
+  
+  
+  
+
+# env:
+#   secrets-manager:
+#     LOGIN: prod/sonar:sonartoken
+#     HOST: prod/sonar:HOST
+#     Organization: prod/sonar:Organization
+#     Project: prod/sonar:Project
+# phases:
+#   install:
+#     runtime-versions:
+#       java: openjdk11
+#   pre_build:
+#     commands:
+#       - apt-get update
+#       - apt-get install -y jq
+#       - wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+#       - tar xzf apache-maven-3.5.4-bin.tar.gz
+#       - ln -s apache-maven-3.5.4 maven
+#       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+#       - unzip ./sonar-scanner-cli-3.3.0.1492-linux.zip
+#       - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
+#   build:
+#     commands:
+#       - mvn test     
+#       - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
+#       - sleep 5
+#       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
+#       - cat result.json
+#       - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
